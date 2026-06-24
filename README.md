@@ -1,4 +1,4 @@
-# ScholarZone (Web Frontend)
+# ScholarZone (Backend)
 
 ScholarZone is a Scholarship Application and Management System designed to simplify the process of finding, applying for, and reviewing scholarships. This repository contains the reviewer-side application.
 
