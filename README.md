@@ -22,6 +22,6 @@ This frontend communicates with the frontend API:\
 Backend Repository: https://github.com/endevium/scholarzone-frontend
 
 ## Related Repositories
-Backend: https://github.com/endevium/scholarzone-backend
-Mobile: https://github.com/endevium/scholarzone-mobile
+Frontend: https://github.com/endevium/scholarzone-frontend\
+Mobile: https://github.com/endevium/scholarzone-mobile\
 AI Module: https://github.com/endevium/scholarzone-ai
