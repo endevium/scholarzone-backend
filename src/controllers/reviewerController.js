@@ -46,6 +46,24 @@ export const registerReviewer = async (req, res) => {
         })
     }
 
+    // Next, validate the password
+    const { password } = req.body;
+
+    // Ensure password complexity
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[^\s]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            message: "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character."
+        });
+    };
+
+    if (password.includes(" ")) {
+        return res.status(400).json({
+            message: "Password cannot contain spaces."
+        });
+    };
+
     // If there are no missing fields, proceed with the registration process
     try {
         const reviewer = await Reviewer.findReviewerByEmail(req.body.email);
