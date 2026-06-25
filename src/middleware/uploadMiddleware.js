@@ -4,13 +4,13 @@ import path from "path";
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         if (file.fieldname === "company_id") {
-            cb(null, "uploads/company_ids")
+            cb(null, "src/uploads/company_ids")
         }
         else if (file.fieldname === "certificate") {
-            cb(null, "uploads/certificates_of_employment")
+            cb(null, "src/uploads/certificates_of_employment")
         }
         else if (file.fieldname === "authorization") {
-            cb(null, "uploads/authorization_letters")
+            cb(null, "src/uploads/authorization_letters")
         }
     },
 
