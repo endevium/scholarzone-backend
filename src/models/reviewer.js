@@ -1,4 +1,4 @@
-import pool from "../config/database";
+import pool from "../config/database.js";
 import bcrypt from "bcrypt";
 
 class Reviewer {
@@ -59,3 +59,5 @@ class Reviewer {
     };
 
 };
+
+export default Reviewer;
