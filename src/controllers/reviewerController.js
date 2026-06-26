@@ -111,6 +111,20 @@ export const registerReviewer = async (req, res) => {
 
 // For reviewer login
 export const loginReviewer = async (req, res) => {
+    const fields = ["email_address", "password"];
+
+    // Check if the required fields are missing
+    const missingFields = fields.filter(
+        field => !req.body[field]
+    );
+
+    if (missingFields.length > 0) {
+        return res.status(400).json({
+            message: "Please make sure that all required fields are filled",
+            missing_fields: missingFields
+        })
+    };
+
     try {
         const { email_address, password } = req.body;
 
@@ -136,5 +150,5 @@ export const loginReviewer = async (req, res) => {
         res.status(500).json({
             message: e.message
         });
-    }
+    };
 };
