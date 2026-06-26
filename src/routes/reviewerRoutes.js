@@ -1,7 +1,7 @@
 import express from "express";
 import upload from "../middleware/uploadMiddleware.js";
 import "../controllers/reviewerController.js";
-import { registerReviewer } from "../controllers/reviewerController.js";
+import { registerReviewer, loginReviewer } from "../controllers/reviewerController.js";
 
 const router = express.Router();
 
@@ -13,6 +13,11 @@ router.post(
         { name: "authorization", maxCount: 1 }
     ]),
     registerReviewer
+);
+
+router.post(
+    "/reviewer/login",
+    loginReviewer
 );
 
 export default router;

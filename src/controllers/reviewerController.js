@@ -1,5 +1,9 @@
 import Reviewer from "../models/reviewer.js";
+import jsonwebtoken from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { deleteUploadedFiles } from "../utils/fileUtils.js";
 
+// For reviewer (web) registration
 export const registerReviewer = async (req, res) => {
     // Check for any missing required fields
     const fields = [
@@ -21,6 +25,8 @@ export const registerReviewer = async (req, res) => {
     );
 
     if (missingFields.length > 0) {
+        deleteUploadedFiles(req.files);
+
         return res.status(400).json({
             message: "Please make sure that all required fields are filled",
             missing_fields: missingFields
@@ -40,6 +46,8 @@ export const registerReviewer = async (req, res) => {
     );
 
     if (missingFiles.length > 0) {
+        deleteUploadedFiles(req.files);
+        
         return res.status(400).json({
             message: "Please upload all required files",
             missing_files: missingFiles
@@ -95,6 +103,36 @@ export const registerReviewer = async (req, res) => {
     }
     catch (e) {
         // Return the error message if an unexpected error occurs
+        res.status(500).json({
+            message: e.message
+        });
+    }
+};
+
+// For reviewer login
+export const loginReviewer = async (req, res) => {
+    try {
+        const { email_address, password } = req.body;
+
+        // Check if the reviewer exists
+        const reviewer = await Reviewer.findReviewerByEmail(email_address);
+        if (!reviewer) { 
+            return res.status(404).json({ error: "Reviewer does not exist" });
+        };
+
+        // Check if the required fields match
+        const isMatch = await bcrypt.compareSync(password, reviewer.password);
+        if (!isMatch) {
+            return res.status(401).json({ error: "Invalid email address or password" });
+        };
+
+        // If conditions above are satisfied, generate a token and allow the user to login
+        // TODO: add JWT and OTP
+        res.status(200).json({
+            message: "Login successful"
+        });
+    }
+    catch (e) {
         res.status(500).json({
             message: e.message
         });
