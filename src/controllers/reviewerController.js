@@ -141,9 +141,22 @@ export const loginReviewer = async (req, res) => {
         };
 
         // If conditions above are satisfied, generate a token and allow the user to login
+        const token = jsonwebtoken.sign(
+            {
+                id: reviewer.id,
+                email_address: reviewer.email_address,
+                role: "reviewer"
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        );
+        
         // TODO: add JWT and OTP
         res.status(200).json({
-            message: "Login successful"
+            message: "Login successful",
+            token: token
         });
     }
     catch (e) {
