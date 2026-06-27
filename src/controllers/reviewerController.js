@@ -1,7 +1,9 @@
 import Reviewer from "../models/reviewer.js";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { sendOTP, verifyOTP } from "../services/otp.js";
 import { deleteUploadedFiles } from "../utils/fileUtils.js";
+
 
 // For reviewer (web) registration
 export const registerReviewer = async (req, res) => {
@@ -97,13 +99,13 @@ export const registerReviewer = async (req, res) => {
             authorization: authorization_path
         });
 
-        res.status(200).json({
+        return res.status(200).json({
             message: "Reviewer successfully sent for verification. Please wait until your account has been verified."
         });
     }
     catch (e) {
         // Return the error message if an unexpected error occurs
-        res.status(500).json({
+        return res.status(500).json({
             message: e.message
         });
     }
@@ -139,6 +141,60 @@ export const loginReviewer = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ error: "Invalid email address or password" });
         };
+        
+        // TODO: add JWT and OTP
+        await OTP.sendOTP(
+            reviewer.email_address,
+            "reviewer",
+            "login"
+        )
+
+        return res.status(200).json({
+            message: "OTP has been sent to your email."
+        });
+    }
+    catch (e) {
+        return res.status(500).json({
+            message: e.message
+        });
+    };
+};
+
+export const verifyReviewerOTP = async (req, res) => {
+    const { email_address, otp } = req.body;
+
+    const fields = [
+        "email_address",
+        "otp"
+    ];
+
+    // Check if either email and/or OTP is missing
+    const missingFields = fields.filter(
+        field => !req.body[field]
+    );
+
+    if (missingFields.length > 0) {
+        return res.status(400).json({
+            message: "Please make sure all required fields are filled",
+            missing_fields: missingFields
+        });
+    };
+
+    try {
+        // Check if the reviewer actually exists
+        const reviewer = await Reviewer.findReviewerByEmail(email_address);
+        if (!reviewer) {
+            return res.status(404).json({
+                error: "This reviewer does not exist"
+            });
+        };
+
+        await verifyOTP(
+            email_address,
+            "reviewer",
+            "login",
+            otp
+        );
 
         // If conditions above are satisfied, generate a token and allow the user to login
         const token = jsonwebtoken.sign(
@@ -152,16 +208,16 @@ export const loginReviewer = async (req, res) => {
                 expiresIn: "7d"
             }
         );
-        
-        // TODO: add JWT and OTP
-        res.status(200).json({
-            message: "Login successful",
+
+        // TODO: add tokens to database table
+        return res.status(200).json({
+            message: "Login successful!",
             token: token
         });
     }
     catch (e) {
-        res.status(500).json({
-            message: e.message
+        return res.status(500).json({
+            error: e.message
         });
     };
-};
+}

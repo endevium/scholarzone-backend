@@ -17,6 +17,7 @@ app.get('/', (_, res) => {
 
 // Importing and using custom routes for the system
 import reviewerRoutes from "./routes/reviewerRoutes.js";
+import otpRoutes from "./routes/otpRoutes.js";
 
 app.use("/api", reviewerRoutes);
 
