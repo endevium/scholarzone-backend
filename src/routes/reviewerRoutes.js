@@ -1,6 +1,6 @@
 import express from "express";
 import upload from "../middleware/uploadMiddleware.js";
-import { registerReviewer, loginReviewer } from "../controllers/reviewerController.js";
+import { registerReviewer, loginReviewer, verifyReviewerOTP } from "../controllers/reviewerController.js";
 
 const router = express.Router();
 
@@ -17,6 +17,11 @@ router.post(
 router.post(
     "/reviewer/login",
     loginReviewer
+);
+
+router.post(
+    "/reviewer/verify-otp",
+    verifyReviewerOTP
 );
 
 export default router;
