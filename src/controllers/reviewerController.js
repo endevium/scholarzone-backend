@@ -143,8 +143,8 @@ export const loginReviewer = async (req, res) => {
         };
         
         // TODO: add JWT and OTP
-        await OTP.sendOTP(
-            reviewer.email_address,
+        await sendOTP(
+            reviewer.email,
             "reviewer",
             "login"
         )

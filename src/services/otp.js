@@ -16,6 +16,7 @@ export const sendOTP = async (email_address, user_type, purpose) => {
     await OTP.createOTP(
         email_address,
         user_type,
+        otp,
         purpose,
         expiresAt
     );
