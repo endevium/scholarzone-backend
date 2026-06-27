@@ -37,7 +37,7 @@ export const verifyOTP = async (email_address, user_type, purpose, otp) => {
     };
 
     // Check if the OTP has expired
-    if (new Date() > new Date(otpRecord.expires_at)) {
+    if (new Date() > new Date(record.expires_at)) {
         throw new Error("Sorry, this OTP has expired")
     };
 
