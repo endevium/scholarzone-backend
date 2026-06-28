@@ -1,6 +1,7 @@
 import Reviewer from "../models/reviewer.js";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { emailSender } from "../utils/emailSenderUtil.js";
 import { sendOTP, verifyOTP } from "../services/otp.js";
 import { deleteUploadedFiles } from "../utils/fileUtils.js";
 
@@ -143,11 +144,13 @@ export const loginReviewer = async (req, res) => {
         };
         
         // TODO: add JWT and OTP
-        await sendOTP(
+        const otp = await sendOTP(
             reviewer.email,
             "reviewer",
             "login"
         )
+
+        await emailSender(reviewer.email, reviewer.first_name, otp);
 
         return res.status(200).json({
             message: "OTP has been sent to your email."
