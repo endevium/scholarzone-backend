@@ -6,8 +6,8 @@ import { transporter } from "../services/nodemailer.js";
  * @param {string} otp
  */
 export const emailSender = async (to, name, otp) => {
-    const title = "ScholarZone Verification";
-    const subject = "Verification Code"
+    const title = "ScholarZone Verification Code";
+    const subject = "ScholarZone Verification Code"
     const message = "Please use the verification code below";
 
     const html = `
@@ -22,7 +22,7 @@ export const emailSender = async (to, name, otp) => {
                 </p>
 
                 <div style="text-align: center; margin: 25px 0;">
-                <span style="display: inline-block; background-color: #45AD7F; color: white; font-size: 24px; font-weight: bold; padding: 12px 24px; border-radius: 6px; letter-spacing: 3px;">
+                <span style="display: inline-block; background-color: #003494; color: white; font-size: 24px; font-weight: bold; padding: 12px 24px; border-radius: 6px; letter-spacing: 3px;">
                     ${otp}
                 </span>
                 </div>
