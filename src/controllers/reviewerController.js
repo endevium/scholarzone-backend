@@ -135,6 +135,16 @@ export const loginReviewer = async (req, res) => {
             return res.status(401).json({ error: "Invalid email address or password" });
         };
         
+        // Check if the reviewer is already approved or still pending
+        const status = await Reviewer.checkReviewerStatus(email_address);
+        if (status === "pending") {
+            return res.status(400).json({ message: "This reviewer account is still pending. Please wait until the team has reviewed this account."})
+        };
+
+        if (status === "rejected") {
+            return res.status(400).json({ message: "Sorry, this account has been rejected."})
+        };
+
         // TODO: add JWT and OTP
         const otp = await sendOTP(
             reviewer.email,

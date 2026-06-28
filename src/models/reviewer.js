@@ -8,7 +8,7 @@ class Reviewer {
         );
 
         return rows;
-    }
+    };
 
     static async findReviewerByEmail(email) {
         const [rows] = await pool.query(
@@ -16,7 +16,7 @@ class Reviewer {
         );
 
         return rows[0];
-    }
+    };
 
     static async findReviewerById(id) {
         const [rows] = await pool.query(
@@ -24,7 +24,15 @@ class Reviewer {
         );
 
         return rows[0];
-    }
+    };
+
+    static async checkReviewerStatus(email) {
+        const [rows] = await pool.query(
+            "SELECT status FROM reviewers WHERE email = ?", [email]
+        );
+
+        return rows.length > 0 ? rows[0].status : null;
+    };
 
     static async create(data) {
         const hashed = await bcrypt.hash(
