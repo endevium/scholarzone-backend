@@ -11,15 +11,7 @@ export const registerReviewer = async (req, res) => {
     // Check for any missing required fields
     const fields = [
         "email",
-        "password",
-        "first_name",
-        "last_name",
-        "birthdate",
-        "gender",
-        "phone_number",
-        "company",
-        "company_location",
-        "address_details"
+        "password"
     ];
 
     // Find any missing field in the request body
@@ -37,25 +29,25 @@ export const registerReviewer = async (req, res) => {
     }
 
     // Now, check if all required documents are uploaded
-    const files = [
-        "company_id",
-        "certificate",
-        "authorization"
-    ];
+    //const files = [
+        //"company_id",
+        //"certificate",
+        //"authorization"
+    //];
 
     // Find any missing required files
-    const missingFiles = files.filter(
-        file => !req.files?.[file]?.length
-    );
+    //const missingFiles = files.filter(
+        //file => !req.files?.[file]?.length
+    //);
 
-    if (missingFiles.length > 0) {
-        deleteUploadedFiles(req.files);
+    //if (missingFiles.length > 0) {
+        //deleteUploadedFiles(req.files);
         
-        return res.status(400).json({
-            message: "Please upload all required files",
-            missing_files: missingFiles
-        })
-    }
+        //return res.status(400).json({
+            //message: "Please upload all required files",
+            //missing_files: missingFiles
+        //})
+    //}
 
     // Next, validate the password
     const { password } = req.body;
@@ -87,17 +79,17 @@ export const registerReviewer = async (req, res) => {
         }
 
         // Initialize the uploaded documents first before registering the reviewer
-        const company_id_path = req.files.company_id?.[0]?.path;
-        const certificate_path = req.files.certificate?.[0]?.path;
-        const authorization_path = req.files.authorization?.[0]?.path;
+        //const company_id_path = req.files.company_id?.[0]?.path;
+        //const certificate_path = req.files.certificate?.[0]?.path;
+        //const authorization_path = req.files.authorization?.[0]?.path;
 
         // Otherwise, let the reviewer be registered in the system
         await Reviewer.create({
             ...req.body,
 
-            company_id: company_id_path,
-            certificate: certificate_path,
-            authorization: authorization_path
+            //company_id: company_id_path,
+            //certificate: certificate_path,
+            //authorization: authorization_path
         });
 
         return res.status(200).json({

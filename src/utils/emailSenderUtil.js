@@ -14,8 +14,8 @@ export const emailSender = async (to, name, otp) => {
         <div style="font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 20px;">
             <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px;">
                 <h2 style="text-align: center; color: #2f62c0;">${title}</h2>
-                <p style="font-size: 16px; color: #333;">
-                Hello ${name || ""},
+                <p style="font-size: 15px; color: #333;">
+                Hello,
                 </p>
                 <p style="font-size: 15px; color: #333;">
                 ${message}
