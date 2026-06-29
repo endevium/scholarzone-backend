@@ -104,7 +104,7 @@ export const registerReviewer = async (req, res) => {
     }
 };
 
-export const updateProfile = async (req, res) => {
+export const completeProfile = async (req, res) => {
     const fields = [
         "first_name",
         "last_name",
@@ -134,6 +134,42 @@ export const updateProfile = async (req, res) => {
         "authorization"
     ];
 
+    // Find any missing required files
+    const missingFiles = files.filter(
+        file => !req.files?.[file]?.length
+    );
+
+    if (missingFiles.length > 0) {
+        deleteUploadedFiles(req.files);
+        
+        return res.status(400).json({
+            message: "Please upload all required files",
+            missing_files: missingFiles
+        })
+    };
+
+    try {
+        // Initialize the uploaded documents first
+        const company_id_path = req.files.company_id?.[0]?.path;
+        const certificate_path = req.files.certificate?.[0]?.path;
+        const authorization_path = req.files.authorization?.[0]?.path;
+
+        await Reviewer.completeProfile({
+            ...req.body,
+            company_id: company_id_path,
+            certificate: certificate_path,
+            authorization: authorization_path
+        });
+
+        return res.status(200).json({
+            message: "Profile updated successfully"
+        });
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: e.message
+        });
+    }
 };
 
 // For reviewer login
