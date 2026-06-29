@@ -121,13 +121,6 @@ export const completeProfile = async (req, res) => {
         field => !req.body[field]
     );
 
-    if (missingFields.length > 0) {
-        return res.status(400).json({
-            message: "Please make sure all required fields are filled",
-            missing_fields: missingFields
-        });
-    };
-
     const files = [
         "company_id",
         "certificate",
@@ -142,8 +135,9 @@ export const completeProfile = async (req, res) => {
     if (missingFiles.length > 0) {
         deleteUploadedFiles(req.files);
         
-        return res.status(400).json({
-            message: "Please upload all required files",
+        return res.status(400).json({ 
+            message: "Please make sure to fill all required files and upload all required files",
+            missing_fields: missingFields,
             missing_files: missingFiles
         })
     };
@@ -158,7 +152,8 @@ export const completeProfile = async (req, res) => {
             ...req.body,
             company_id: company_id_path,
             certificate: certificate_path,
-            authorization: authorization_path
+            authorization: authorization_path,
+            id: req.params.id
         });
 
         return res.status(200).json({

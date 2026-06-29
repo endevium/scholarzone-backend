@@ -19,8 +19,8 @@ router.post(
     verifyReviewerOTP
 );
 
-router.post(
-    "/reviewer/complete-profile",
+router.patch(
+    "/reviewer/complete-profile/:id",
     upload.fields([
         { name: "company_id", maxCount: 1 },
         { name: "certificate", maxCount: 1 },
