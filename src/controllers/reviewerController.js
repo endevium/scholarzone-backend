@@ -104,6 +104,38 @@ export const registerReviewer = async (req, res) => {
     }
 };
 
+export const updateProfile = async (req, res) => {
+    const fields = [
+        "first_name",
+        "last_name",
+        "birthdate",
+        "gender",
+        "phone_number",
+        "company",
+        "company_location",
+        "address_details",
+    ];
+
+    // Check if any fields are missing
+    const missingFields = fields.filter(
+        field => !req.body[field]
+    );
+
+    if (missingFields.length > 0) {
+        return res.status(400).json({
+            message: "Please make sure all required fields are filled",
+            missing_fields: missingFields
+        });
+    };
+
+    const files = [
+        "company_id",
+        "certificate",
+        "authorization"
+    ];
+
+};
+
 // For reviewer login
 export const loginReviewer = async (req, res) => {
     const fields = ["email_address", "password"];

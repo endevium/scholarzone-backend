@@ -53,6 +53,38 @@ class Reviewer {
         return result;
     };
 
+    static async completeProfile(data) {
+        const [result] = await pool.query(
+            `UPDATE reviewers
+            SET first_name = ?,
+            last_name = ?,
+            birthdate = ?,
+            gender = ?,
+            phone_number = ?,
+            company = ?,
+            company_location = ?,
+            address_details = ?,
+            company_id = ?,
+            certificate = ?,
+            authorization = ?
+            WHERE id = ?
+            `,
+            [
+                data.first_name,
+                data.last_name,
+                data.birthdate,
+                data.gender,
+                data.phone_number,
+                data.company,
+                data.company_location,
+                data.address_details,
+                data.company_id,
+                data.certificate,
+                data.authorization,
+                data.id
+            ]
+        )
+    }
 };
 
 export default Reviewer;
