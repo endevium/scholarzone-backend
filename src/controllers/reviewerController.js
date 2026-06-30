@@ -1,4 +1,5 @@
 import Reviewer from "../models/reviewer.js";
+import ReviewerToken from "../models/reviewerToken.js";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { emailSender } from "../utils/emailSenderUtil.js";
@@ -57,13 +58,13 @@ export const registerReviewer = async (req, res) => {
 
     if (!passwordRegex.test(password)) {
         return res.status(400).json({
-            message: "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character."
+            message: "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character"
         });
     };
 
     if (password.includes(" ")) {
         return res.status(400).json({
-            message: "Password cannot contain spaces."
+            message: "Password cannot contain spaces"
         });
     };
 
@@ -74,7 +75,7 @@ export const registerReviewer = async (req, res) => {
         // Return an error if the email is already used
         if (reviewer) {
             return res.status(409).json({
-                message: "This email already exists."
+                message: "This email already exists"
             })
         }
 
@@ -93,7 +94,7 @@ export const registerReviewer = async (req, res) => {
         });
 
         return res.status(200).json({
-            message: "Reviewer successfully sent for verification. Please wait until your account has been verified."
+            message: "Reviewer successfully sent for verification. Please wait until your account has been verified"
         });
     }
     catch (e) {
@@ -277,7 +278,16 @@ export const verifyReviewerOTP = async (req, res) => {
             }
         );
 
-        // TODO: add tokens to database table
+        const decoded = jsonwebtoken.decode(token);
+        const expiresAt = new Date(decoded.exp * 1000);
+
+        // Add tokens to database
+        await ReviewerToken.createToken(
+            reviewer.id,
+            token,
+            expiresAt
+        );
+
         return res.status(200).json({
             message: "Login successful!",
             token: token
