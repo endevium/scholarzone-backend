@@ -56,3 +56,5 @@ class ReviewerToken {
         return result.affectedRows;
     };
 };
+
+export default ReviewerToken;
