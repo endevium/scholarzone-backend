@@ -281,6 +281,8 @@ export const verifyReviewerOTP = async (req, res) => {
         const decoded = jsonwebtoken.decode(token);
         const expiresAt = new Date(decoded.exp * 1000);
 
+        await ReviewerToken.deleteTokensByReviewer(reviewer.id);
+        
         // Add tokens to database
         await ReviewerToken.createToken(
             reviewer.id,
