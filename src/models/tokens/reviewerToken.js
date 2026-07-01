@@ -1,4 +1,4 @@
-import pool from "../config/database.js";
+import pool from "../../config/database.js";
 
 class ReviewerToken {
     static async createToken(reviewerId, token, expiresAt) {

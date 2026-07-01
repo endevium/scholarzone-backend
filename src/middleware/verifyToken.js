@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-import ReviewerToken from "../models/reviewerToken.js";
+import ReviewerToken from "../models/tokens/reviewerToken.js";
 
 const tokenModels = {
     reviewer: ReviewerToken

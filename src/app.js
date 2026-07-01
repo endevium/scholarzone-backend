@@ -16,7 +16,7 @@ app.get('/', (_, res) => {
 });
 
 // Importing and using custom routes for the system
-import reviewerRoutes from "./routes/reviewerRoutes.js";
+import reviewerRoutes from "./routes/users/reviewerRoutes.js";
 
 app.use("/api", reviewerRoutes);
 

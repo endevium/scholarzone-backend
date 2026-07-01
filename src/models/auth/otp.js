@@ -1,4 +1,4 @@
-import pool from "../config/database.js";
+import pool from "../../config/database.js";
 
 class OTP {
     static async createOTP(emailAddress, userType, code, purpose, expiresAt) {

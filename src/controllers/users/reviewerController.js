@@ -1,10 +1,10 @@
-import Reviewer from "../models/reviewer.js";
-import ReviewerToken from "../models/reviewerToken.js";
+import Reviewer from "../../models/users/reviewer.js";
+import ReviewerToken from "../../models/tokens/reviewerToken.js";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { emailSender } from "../utils/emailSenderUtil.js";
-import { sendOTP, verifyOTP } from "../services/otp.js";
-import { deleteUploadedFiles } from "../utils/fileUtils.js";
+import { emailSender } from "../../utils/emailSenderUtil.js";
+import { sendOTP, verifyOTP } from "../../services/otp.js";
+import { deleteUploadedFiles } from "../../utils/fileUtils.js";
 
 
 // For reviewer (web) registration

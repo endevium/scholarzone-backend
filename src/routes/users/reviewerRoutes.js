@@ -1,6 +1,6 @@
 import express from "express";
-import upload from "../middleware/uploadMiddleware.js";
-import { registerReviewer, loginReviewer, verifyReviewerOTP, completeProfile } from "../controllers/reviewerController.js";
+import upload from "../../middleware/uploadMiddleware.js";
+import { registerReviewer, loginReviewer, verifyReviewerOTP, completeProfile } from "../../controllers/users/reviewerController.js";
 
 const router = express.Router();
 

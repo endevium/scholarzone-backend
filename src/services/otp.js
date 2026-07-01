@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import OTP from "../models/otp.js";
+import OTP from "../models/auth/otp.js";
 
 export const sendOTP = async (email_address, user_type, purpose) => {
     // Delete the existing OTPs associated with the email and purpose
